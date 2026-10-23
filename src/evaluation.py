@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.metrics import accuracy_score, roc_auc_score
 
 
@@ -25,3 +26,19 @@ def evaluate(df, proba, name="Modell"):
         "Botten 10 % (median avk.)": bottom.median(),
         "Alla (median avk.)": df["next_year_return"].median(),
     }, name=name).round(3)
+
+def bootstrap_auc(df, proba, n_boot=1000, seed=42):
+    """95 %-intervall för ROC-AUC med bootstrap.
+
+    Drar nya urval av aktierna (med återläggning) många gånger och räknar
+    ROC-AUC varje gång. Spridningen visar hur osäkert resultatet är.
+    """
+    rng = np.random.default_rng(seed)
+    y = df["above_median"].to_numpy()
+    proba = np.asarray(proba)
+    scores = []
+    for _ in range(n_boot):
+        idx = rng.integers(0, len(y), len(y))
+        scores.append(roc_auc_score(y[idx], proba[idx]))
+    low, high = np.percentile(scores, [2.5, 97.5])
+    return round(low, 3), round(high, 3)

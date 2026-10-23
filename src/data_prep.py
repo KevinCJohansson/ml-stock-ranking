@@ -18,6 +18,14 @@ FEATURES = [
     "Market Cap"
 ]
 
+FEATURES_SMALL = [
+    "ROE",
+    "PE ratio",
+    "Debt to Equity",
+    "Net Profit Margin",
+    "Gross Margin",
+]
+
 def load_year(year, data_dir="../Data"):
     """Läser in ett års fil och ger avkastningskolumnen ett gemensamt namn."""
     df = pd.read_csv(f"{data_dir}/{year}_Financial_Data.csv")
@@ -49,7 +57,8 @@ def prepare_year(df):
     # Börsvärdet varierar enormt, så vi använder logaritmen
     df["Market Cap"] = np.log1p(df["Market Cap"].clip(lower=0))
 
-    columns = ["Ticker", "year", "Sector"] + FEATURES + ["has_loss",
+    extra = [c for c in FEATURES_SMALL if c not in FEATURES]
+    columns = ["Ticker", "year", "Sector"] + FEATURES + extra + ["has_loss",
                "next_year_return", "above_median"]
     return df[columns]
 

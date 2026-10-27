@@ -157,7 +157,7 @@ Förbehandlingen omfattar:
 - Logaritmering av börsvärde för att hantera stora skillnader i storlek.
 - Medianimputering av saknade värden i modellens pipeline.
 - Standardisering av numeriska variabler.
-- Winsorisering i vissa experiment, där extremvärden begränsas till den första respektive 99:e percentilen.
+- Winsorisering, där extremvärden begränsas till den 1:a respektive 99:e percentilen. Används i den slutliga modellen.
 
 ### Målvariabel
 
@@ -188,9 +188,30 @@ Den slutliga analysen använder logistisk regression med 15 finansiella nyckelta
 
 ## 9. Viktigaste resultat
 
-Den slutliga modellen uppnådde följande resultat:
+Den slutliga modellen (logistisk regression med 15 nyckeltal, winsorisering och sektor) uppnådde följande resultat:
 
-| Mått | Resultat |
+| Mått | 2017 (validering) | 2018 (test) |
+|---|---|---|
+| ROC-AUC | 0,626 [0,610–0,643] | 0,630 [0,614–0,648] |
+| Accuracy | 59,6 % | 59,6 % |
+| Medianavkastning, topp 10 % | −13,5 % | 22,7 % |
+| Medianavkastning, botten 10 % | −39,3 % | −15,3 % |
+| Medianavkastning, alla aktier | −16,3 % | 17,8 % |
+
+Hakparenteserna anger 95 %-intervall från bootstrap.
+
+**Jämförelse med baseline och alternativ modell (ROC-AUC):**
+
+| Modell | 2017 | 2018 |
+|---|---|---|
+| Slumpmässig gissning | 0,488 | 0,507 |
+| Lågt P/B | 0,484 | 0,438 |
+| **Logistisk regression (vald)** | **0,626** | **0,630** |
+| Gradient boosting | 0,633 | 0,636 |
+
+Skillnaden mellan gradient boosting och logistisk regression var +0,007 (2017) och +0,006 (2018), men 95 %-intervallet för skillnaden innehöll noll båda åren.
+
+En modell med enbart sektor nådde ROC-AUC 0,576 på 2018. Inom respektive sektor nådde den valda modellen 0,61, vilket visar att nyckeltalen bidrar även utöver sektorinformationen.
 
 
 Resultaten visar att finansiella nyckeltal ger en begränsad men användbar signal för att skilja aktier som överträffar medianavkastningen från dem som inte gör det.

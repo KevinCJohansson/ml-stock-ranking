@@ -99,7 +99,7 @@ Projektet använder Python och följande huvudsakliga bibliotek:
 Klona repot och gå till projektmappen:
 
 ```bash
-git clone <URL-TILL-GITHUB-REPO>
+git clone https://github.com/KevinCJohansson/ml-stock-ranking
 cd ml-stock-ranking
 ```
 
@@ -184,11 +184,11 @@ Slumpmässiga prediktioner och en enkel regel baserad på P/B-tal används som b
 
 ROC-AUC är det huvudsakliga utvärderingsmåttet. Accuracy, medianavkastning för de 10 % högst respektive lägst rankade aktierna samt 95-procentiga bootstrapintervall används också.
 
-Den slutliga analysen använder logistisk regression med 15 finansiella nyckeltal, winsorisering och sektorinformation. Modellen valdes eftersom den var enklare att tolka och presterade jämförbart med den bästa alternativa modellen.
+Den slutliga modellen använder logistisk regression med 14 finansiella nyckeltal, en indikator för förlust (has_loss), winsorisering och sektorinformation. Modellen valdes eftersom den var enklare att tolka och presterade jämförbart med den bästa alternativa modellen.
 
 ## 9. Viktigaste resultat
 
-Den slutliga modellen (logistisk regression med 15 nyckeltal, winsorisering och sektor) uppnådde följande resultat:
+Den slutliga modellen (logistisk regression med 14 nyckeltal, en indikator för förlust (has_loss) winsorisering och sektor) uppnådde följande resultat:
 
 | Mått | 2017 (validering) | 2018 (test) |
 |---|---|---|
